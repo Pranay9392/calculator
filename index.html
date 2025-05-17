@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Calculator</title>
 
     <style>
 
@@ -56,29 +56,101 @@
     </style>
 </head>
 <body>
-    
+
     <div class="main">
-        <div class="child child1">1</div>
-        <div class="child child2">2</div>
-        <div class="child child3">3</div>
-        <div class="child child4">4</div>
-        <div class="child child5">5</div>
-        <div class="child child6">6</div>
-        <div class="child child7">7</div>
-        <div class="child child8">8</div>
-        <div class="child child9">9</div>
-        <div class="child child10">10</div>
-        <div class="child child11">11</div>
-        <div class="child child12">12</div>
-        <div class="child child13">13</div>
-        <div class="child child14">14</div>
-        <div class="child child15">15</div>
-        <div class="child child16">16</div>
-        <div class="child child17">17</div>
-        <div class="child child18">18</div>
-        <div class="child child19">19</div>
-        <div class="child child20">20</div>
+        <input class="child child1"  id="display">
+        <button class="child child2" onclick="clearDisplay()" >AC</button>
+        <button class="child child3">DEL</button>
+        <button class="child child4" onclick="appendOperation('+')">+</button>
+        <button class="child child5" onclick="appendOperation('-')">-</button>
+        <button class="child child6" onclick="appendOperation('*')">*</button>
+        <button class="child child7" onclick="appendOperation('%')"">%</button>
+        <button class="child child8">√ </button>
+        <button class="child child9">^</button>
+        <button class="child child10" onclick="appendNumber('9')">9</button>
+        <button class="child child11" onclick="appendNumber('8')">8</button>
+        <button class="child child12" onclick="appendNumber('7')">7</button>
+        <button class="child child13" onclick="appendNumber('6')">6</button>
+        <button class="child child14" onclick="appendNumber('5')">5</button>
+        <button class="child child15" onclick="appendNumber('4')">4</button>
+        <button class="child child16" onclick="appendNumber('3')">3</button>
+        <button class="child child17" onclick="calculate()">=</button>
+        <button class="child child18" onclick="appendNumber('1')">1</button>
+        <button class="child child19" onclick="appendNumber('2')">2</button>
+        <button class="child child20" onclick="appendNumber('0')">0</button>
+
+        <script>
+            let currentInput = ''
+            let currentOperation = ''
+            let previousInput = ''
+
+            function appendNumber(num){
+
+                currentInput+=num
+                if (previousInput === ''){
+                document.getElementById('display').value = `${currentInput} ${currentOperation} ${previousInput}` ;
+                }else{
+                document.getElementById('display').value = `${previousInput} ${currentOperation} ${currentInput}` ;
+                }
+                
+            }
+
+            function appendOperation(operation) {
+            if (currentInput === '') return;
+            if (previousInput !== '') {
+                calculate(); // Calculate the previous operation before appending a new one
+            }
+            currentOperation = operation;
+            previousInput = currentInput;
+            currentInput = '';
+            document.getElementById('display').value = `${previousInput} ${currentOperation}`;
+        }
+
+           
+
+            function calculate() {
+            if (previousInput === '' || currentInput === '') return;
+            let result;
+            let prev = parseFloat(previousInput);
+            let current = parseFloat(currentInput);
+
+            switch (currentOperation) {
+                case '+':
+                    result = prev + current;
+                    break;
+                case '-':
+                    result = prev - current;
+                    break;
+                case '*':
+                    result = prev * current;
+                    break;
+                case '/':
+                    if (current === 0) {
+                        alert("Cannot divide by zero");
+                        return;
+                    }
+                    result = prev / current;
+                    break;
+                default:
+                    return;
+            }
+
+            currentInput = result.toString();
+            currentOperation = '';
+            previousInput = '';
+            document.getElementById('display').value = currentInput;
+        }
+
+        function clearDisplay() {
+            currentInput = '';
+            previousInput = '';
+            currentOperation = '';
+            document.getElementById('display').value = '';
+        }
+        </script>
     </div>
+    
+    
     
     
 </body>
